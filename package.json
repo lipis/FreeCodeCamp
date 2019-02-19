@@ -8,11 +8,12 @@
     "develop:client": "cd ./client && npm run develop",
     "develop:server": "cd ./api-server && node development-entry.js",
     "ensure-env": "cross-env DEBUG=fcc:* node ./tools/scripts/ensure-env.js",
-    "format": "npm run lint -- --fix",
+    "format:js": "npm run test:lint -- --fix",
+    "format:other": "npm run prettier -- --write",
     "hooks:install": "node node_modules/husky/husky.js install",
     "hooks:uninstall": "node node_modules/husky/husky.js uninstall",
-    "lint": "eslint .",
     "postinstall": "npm run bootstrap",
+    "prettier": "prettier \"**/*.yml\"",
     "seed": "npm-run-all -p seed:*",
     "seed:auth-user": "cross-env DEBUG=fcc:* node ./tools/scripts/seed/seedAuthUser",
     "seed:challenges": "cross-env DEBUG=fcc:* node ./tools/scripts/seed/seedChallenges",
@@ -20,7 +21,8 @@
     "test:client": "cd ./client && npm test && cd ../",
     "test:curriculum": "cd ./curriculum && npm test && cd ../",
     "test:guide-formatting": "node ./tools/scripts/ci/ensure-guide-formatting.js",
-    "test:lint": "echo 'Warning: TODO - Define Linting tests.'",
+    "test:lint": "eslint .",
+    "test:other": "npm run prettier -- --list-different",
     "test:server": "cd ./api-server && npm test && cd ../",
     "test:tools": "jest ./tools"
   },
@@ -30,7 +32,7 @@
     "cross-env": "^5.2.0",
     "debug": "^4.0.1",
     "dotenv": "^6.0.0",
-    "eslint": "^5.12.1",
+    "eslint": "^5.14.1",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.16.0",
@@ -54,6 +56,10 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
+      "git add"
+    ],
+    "*.yml": [
+      "prettier --write",
       "git add"
     ]
   },
